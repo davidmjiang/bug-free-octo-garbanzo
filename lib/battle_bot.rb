@@ -10,8 +10,11 @@ class BattleBot
     @@count +=1
   end
 
+  def self.count
+    @@count
+  end
+
 def dead?
- @@count -=1 if @health==0
  @health==0
 end
 
@@ -26,7 +29,7 @@ def pick_up(weapon)
     return nil
   else
     @weapon=weapon
-    weapon.bot=(self)
+    weapon.bot=self
     weapon
   end
 end
@@ -39,7 +42,10 @@ end
 def take_damage(damage)
   raise ArgumentError unless damage.is_a? Fixnum
   @health-=damage
-  @health=0 if @health<0
+ if @health<=0
+  @health=0
+  @@count-=1
+end
   @health
 end
 
